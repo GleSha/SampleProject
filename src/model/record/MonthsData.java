@@ -1,4 +1,4 @@
-package model;
+package model.record;
 
 public class MonthsData {
     private Integer start;
@@ -31,7 +31,7 @@ public class MonthsData {
 
     @Override
     public String toString() {
-        return "model.MonthsData{" +
+        return "model.record.MonthsData{" +
                 "start=" + start +
                 ", end=" + end +
                 ", duration=" + duration +

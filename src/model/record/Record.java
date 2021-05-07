@@ -1,4 +1,4 @@
-package model;
+package model.record;
 
 public class Record {
 
@@ -23,7 +23,7 @@ public class Record {
 
     @Override
     public String toString() {
-        return "model.Record{" +
+        return "model.record.Record{" +
                 "variables=" + variables +
                 ", description='" + description + '\'' +
                 '}';

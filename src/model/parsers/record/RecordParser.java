@@ -1,17 +1,18 @@
-package mediators.record;
+package model.parsers.record;
 
-import model.Record;
+import model.record.Record;
 import parsing.Parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class RecordParser {
 
     private List<Record> parsedRecords = new ArrayList<>();
     private Record.Builder builder = Record.builder();
     private Double neededAmount;
-    private long recordsCount = 0;
+    private Predicate<Record.Builder> searchFilter;
 
     public void setNeededAmount(Double amount) {
         neededAmount = amount;
@@ -51,6 +52,7 @@ public class RecordParser {
 
     private void durationClose(String value) {
         builder.setDuration(Integer.valueOf(value));
+        System.out.println(value);
     }
 
     public void percentRateClose(String value) {
@@ -59,19 +61,13 @@ public class RecordParser {
 
     private void descriptionClose(String value) {
         builder.setDescription(value);
-        parsedRecords.add(builder.build());
-        /*recordsCount++;
-        if (builder.getAmount() < neededAmount) {
-            if (recordsCount > 20000L) {
-                parsedRecords.add(builder.build());
-                recordsCount = 0;
-            }
-        }*/
+        if (searchFilter.test(builder)) {
+            parsedRecords.add(builder.build());
+        }
     }
 
-    public List<Record> getParsedRecords(String fileName, Double neededAmount) {
+    public List<Record> getParsedRecords(String fileName) {
         Parser parser = new Parser();
-        this.neededAmount = neededAmount;
         parser.addOpeningTagFunction("records", this::recordsOpen);
         parser.addOpeningTagFunction("record", this::recordOpen);
         parser.addClosingTagFunction("id", this::idClose);
@@ -84,5 +80,9 @@ public class RecordParser {
         parser.addClosingTagFunction("duration", this::durationClose);
         parser.parse(fileName);
         return parsedRecords;
+    }
+
+    public void setSearchFilter(Predicate<Record.Builder> searchFilter) {
+        this.searchFilter = searchFilter;
     }
 }

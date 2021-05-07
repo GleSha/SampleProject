@@ -1,4 +1,4 @@
-package model;
+package model.record;
 
 public class VariablesData {
     private Long id;
@@ -49,7 +49,7 @@ public class VariablesData {
 
     @Override
     public String toString() {
-        return "model.VariablesData{" +
+        return "model.record.VariablesData{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", amount=" + amount +
