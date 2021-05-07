@@ -11,16 +11,7 @@ public class RecordParser {
 
     private List<Record> parsedRecords = new ArrayList<>();
     private Record.Builder builder = Record.builder();
-    private Double neededAmount;
     private Predicate<Record.Builder> searchFilter;
-
-    public void setNeededAmount(Double amount) {
-        neededAmount = amount;
-    }
-
-    public Double getNeededAmount() {
-        return neededAmount;
-    }
 
     public void recordsOpen() {
         parsedRecords.clear();
