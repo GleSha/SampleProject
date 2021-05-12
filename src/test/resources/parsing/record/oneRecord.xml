@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<records>
+<record>
+<variables>
+<id>1</id>
+<amount>1123.23</amount>
+<name>someName</name>
+<months>
+<start>3</start>
+<end>4</end>
+<duration>24</duration>
+</months>
+<percentRate>6.5</percentRate>
+</variables>
+<description>some</description>
+</record>
+</records>

@@ -42,42 +42,53 @@ public class Record {
         private Builder() {
         }
 
-        public Builder setId(Long id) {
+        public void clear() {
+            desc = null;
+            variablesData.setAmount(null);
+            variablesData.setId(null);
+            variablesData.setName(null);
+            variablesData.setPercentRate(null);
+            monthsData.setEnd(null);
+            monthsData.setStart(null);
+            monthsData.setDuration(null);
+        }
+
+        public Builder id(Long id) {
             variablesData.setId(id);
             return this;
         }
 
-        public Builder setName(String name) {
+        public Builder name(String name) {
             variablesData.setName(name);
             return this;
         }
 
-        public Builder setAmount(Double amount) {
+        public Builder amount(Double amount) {
             variablesData.setAmount(amount);
             return this;
         }
 
-        public Builder setPercentRate(Double percentRate) {
+        public Builder percentRate(Double percentRate) {
             variablesData.setPercentRate(percentRate);
             return this;
         }
 
-        public Builder setStart(Integer start) {
+        public Builder start(Integer start) {
             monthsData.setStart(start);
             return this;
         }
 
-        public Builder setEnd(Integer end) {
+        public Builder end(Integer end) {
             monthsData.setEnd(end);
             return this;
         }
 
-        public Builder setDuration(Integer duration) {
+        public Builder duration(Integer duration) {
             monthsData.setDuration(duration);
             return this;
         }
 
-        public Builder setDescription(String description) {
+        public Builder description(String description) {
             desc = description;
             return this;
         }
