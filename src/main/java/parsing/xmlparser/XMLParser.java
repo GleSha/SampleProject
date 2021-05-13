@@ -8,7 +8,7 @@ public class XMLParser {
 
     private final ReadEventContainer readEventContainer;
 
-    public XMLParser(Supplier<ReadEventHandler> readEventHandlerSupplier) {
+    public XMLParser(Supplier<ReadEventHandlersInitializer> readEventHandlerSupplier) {
         readEventContainer = new ReadEventContainer();
         readEventHandlerSupplier.get().setHandlersForEvents(readEventContainer);
     }

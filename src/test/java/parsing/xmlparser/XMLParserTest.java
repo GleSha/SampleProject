@@ -5,7 +5,7 @@ import filewriting.record.RecordWriter;
 import org.junit.Assert;
 import org.junit.Test;
 import parsers.record.RecordCollector;
-import parsers.record.RecordReadEventHandler;
+import parsers.record.RecordReadEventHandlerInitializer;
 import javax.xml.stream.XMLStreamException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class XMLParserTest {
     public void read_emptyFile_getError() throws XMLStreamException, FileNotFoundException {
         RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + emptyFile));
         RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() > 1.0, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandler(recordCollector.recordConsumer,
+        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
                 recordCollector.onRecordsClose));
         recordParser.read(pathPrefix + emptyFile);
     }
@@ -39,7 +39,7 @@ public class XMLParserTest {
     public void read_nonexistentFile_getError() throws XMLStreamException, FileNotFoundException {
         RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + nonexistentFile));
         RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() > 1.0, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandler(recordCollector.recordConsumer,
+        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
                 recordCollector.onRecordsClose));
         recordParser.read(pathPrefix + nonexistentFile);
     }
@@ -48,7 +48,7 @@ public class XMLParserTest {
     public void read_incompleteFile_getError() throws XMLStreamException, FileNotFoundException {
         RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + incompleteFile));
         RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() > 1.0, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandler(recordCollector.recordConsumer,
+        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
                 recordCollector.onRecordsClose));
         recordParser.read(pathPrefix + incompleteFile);
     }
@@ -72,7 +72,7 @@ public class XMLParserTest {
     public void read_oneRecordOtherFieldsOrder() throws XMLStreamException, IOException {
         RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + oneRecordOtherFieldsOrder));
         RecordCollector recordCollector = new RecordCollector(r -> true, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandler(recordCollector.recordConsumer,
+        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
                 recordCollector.onRecordsClose));
         recordParser.read(pathPrefix + oneRecordOtherFieldsOrder);
         Assert.assertEquals(Files.readString(Paths.get(pathPrefix + oneRecordOtherFieldsOrderResult)),
@@ -83,7 +83,7 @@ public class XMLParserTest {
     public void read_recordsFiltering() throws XMLStreamException, IOException {
         RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + recordsForFiltering));
         RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() < 1.0, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandler(recordCollector.recordConsumer,
+        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
                 recordCollector.onRecordsClose));
         recordParser.read(pathPrefix + recordsForFiltering);
         Assert.assertEquals(Files.readString(Paths.get(pathPrefix + filteringResult)),
@@ -93,7 +93,7 @@ public class XMLParserTest {
     private void read_testWithoutFiltering(String fileName) throws XMLStreamException, IOException {
         RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + fileName));
         RecordCollector recordCollector = new RecordCollector(r -> true, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandler(recordCollector.recordConsumer,
+        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
                 recordCollector.onRecordsClose));
         recordParser.read(pathPrefix + fileName);
         Assert.assertEquals(Files.readString(Paths.get(pathPrefix + fileName)),

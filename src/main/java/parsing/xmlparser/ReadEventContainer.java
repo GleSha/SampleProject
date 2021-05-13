@@ -2,7 +2,6 @@ package parsing.xmlparser;
 
 import parsing.xmlparser.utils.ThrowingConsumer;
 import parsing.xmlparser.utils.VoidFunction;
-
 import javax.xml.stream.XMLStreamException;
 import java.io.FileNotFoundException;
 import java.util.HashMap;

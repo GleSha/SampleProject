@@ -2,19 +2,19 @@ package parsers.record;
 
 import model.record.Record;
 import parsing.xmlparser.ReadEventContainer;
-import parsing.xmlparser.ReadEventHandler;
+import parsing.xmlparser.ReadEventHandlersInitializer;
 import parsing.xmlparser.utils.ThrowingConsumer;
 import parsing.xmlparser.utils.VoidFunction;
 import javax.xml.stream.XMLStreamException;
 import java.io.FileNotFoundException;
 
-public class RecordReadEventHandler implements ReadEventHandler {
+public class RecordReadEventHandlerInitializer implements ReadEventHandlersInitializer {
 
     private Record.Builder builder = Record.builder();
     private final ThrowingConsumer<Record> recordConsumer;
     private final VoidFunction onRecordsClose;
 
-    public RecordReadEventHandler(ThrowingConsumer<Record> recordConsumer, VoidFunction onRecordsClose) {
+    public RecordReadEventHandlerInitializer(ThrowingConsumer<Record> recordConsumer, VoidFunction onRecordsClose) {
         this.recordConsumer = recordConsumer;
         this.onRecordsClose = onRecordsClose;
         builder = Record.builder();
@@ -80,5 +80,4 @@ public class RecordReadEventHandler implements ReadEventHandler {
         eventContainer.addClosingTagFunction("duration", this::onDurationClose);
         eventContainer.addClosingTagFunction("records", this::onRecordsClose);
     }
-
 }
