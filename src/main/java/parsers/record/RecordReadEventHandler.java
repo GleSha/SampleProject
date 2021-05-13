@@ -21,7 +21,9 @@ public class RecordReadEventHandler implements ReadEventHandler {
     }
 
     private void onRecordOpen() {
-        builder.clear();
+        if (builder == null) {
+            builder = Record.builder();
+        }
     }
 
     private void onIdClose(String value) {

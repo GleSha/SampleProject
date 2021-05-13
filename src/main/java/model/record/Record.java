@@ -42,17 +42,6 @@ public class Record {
         private Builder() {
         }
 
-        public void clear() {
-            desc = null;
-            variablesData.setAmount(null);
-            variablesData.setId(null);
-            variablesData.setName(null);
-            variablesData.setPercentRate(null);
-            monthsData.setEnd(null);
-            monthsData.setStart(null);
-            monthsData.setDuration(null);
-        }
-
         public Builder id(Long id) {
             variablesData.setId(id);
             return this;
