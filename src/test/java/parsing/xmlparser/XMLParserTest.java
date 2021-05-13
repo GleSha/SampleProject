@@ -13,10 +13,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class XMLParserTest {
-
     private static final String pathPrefix = "src\\test\\resources\\parsing\\record\\";
     private static final String emptyFile = "emptyFile.xml";
     private static final String nonexistentFile = "nonexistentFile";
+    /**
+     * MAX_BUFFER_COUNT = 6 here.
+     */
     private static final String maxBufferCountRecords = "maxBufferCountRecords.xml";
     private static final String oneMoreThanMaxBufferCountRecords = "oneMoreThanMaxBufferCountRecords.xml";
     private static final String oneRecord = "oneRecord.xml";

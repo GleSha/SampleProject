@@ -35,9 +35,9 @@ public class Record {
 
     public static class Builder {
 
-        private static VariablesData variablesData = new VariablesData();
-        private static MonthsData monthsData = new MonthsData();
-        private static String desc;
+        private VariablesData variablesData = new VariablesData();
+        private MonthsData monthsData = new MonthsData();
+        private String desc;
 
         private Builder() {
         }
