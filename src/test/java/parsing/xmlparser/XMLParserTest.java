@@ -28,44 +28,32 @@ public class XMLParserTest {
 
     @Test(expected = XMLStreamException.class)
     public void read_emptyFile_getError() throws XMLStreamException, FileNotFoundException {
-        RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + emptyFile));
-        RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() > 1.0, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
-                recordCollector.onRecordsClose));
-        recordParser.read(pathPrefix + emptyFile);
+        readIgnoreOutput(emptyFile);
     }
 
     @Test(expected = FileNotFoundException.class)
     public void read_nonexistentFile_getError() throws XMLStreamException, FileNotFoundException {
-        RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + nonexistentFile));
-        RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() > 1.0, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
-                recordCollector.onRecordsClose));
-        recordParser.read(pathPrefix + nonexistentFile);
+        readIgnoreOutput(nonexistentFile);
     }
 
     @Test(expected = XMLStreamException.class)
     public void read_incompleteFile_getError() throws XMLStreamException, FileNotFoundException {
-        RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + incompleteFile));
-        RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() > 1.0, recordWriter);
-        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
-                recordCollector.onRecordsClose));
-        recordParser.read(pathPrefix + incompleteFile);
+        readIgnoreOutput(incompleteFile);
     }
 
     @Test
     public void read_oneRecord() throws XMLStreamException, IOException {
-        read_testWithoutFiltering(oneRecord);
+        readWithoutFiltering(oneRecord);
     }
 
     @Test
     public void read_maxBufferRecords() throws XMLStreamException, IOException {
-        read_testWithoutFiltering(maxBufferCountRecords);
+        readWithoutFiltering(maxBufferCountRecords);
     }
 
     @Test
     public void read_oneMoreThanMaxBufferRecords() throws XMLStreamException, IOException {
-        read_testWithoutFiltering(oneMoreThanMaxBufferCountRecords);
+        readWithoutFiltering(oneMoreThanMaxBufferCountRecords);
     }
 
     @Test
@@ -90,7 +78,15 @@ public class XMLParserTest {
                 Files.readString(Paths.get(pathPrefix + "out" + recordsForFiltering)));
     }
 
-    private void read_testWithoutFiltering(String fileName) throws XMLStreamException, IOException {
+    private void readIgnoreOutput(String fileName) throws XMLStreamException, FileNotFoundException {
+        RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + fileName));
+        RecordCollector recordCollector = new RecordCollector(r -> r.getVariables().getAmount() > 1.0, recordWriter);
+        XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
+                recordCollector.onRecordsClose));
+        recordParser.read(pathPrefix + fileName);
+    }
+
+    private void readWithoutFiltering(String fileName) throws XMLStreamException, IOException {
         RecordWriter recordWriter = new RecordWriter(new XMLWriter(pathPrefix + "out" + fileName));
         RecordCollector recordCollector = new RecordCollector(r -> true, recordWriter);
         XMLParser recordParser = new XMLParser(() -> new RecordReadEventHandlerInitializer(recordCollector.recordConsumer,
@@ -99,5 +95,4 @@ public class XMLParserTest {
         Assert.assertEquals(Files.readString(Paths.get(pathPrefix + fileName)),
                 Files.readString(Paths.get(pathPrefix + "out" + fileName)));
     }
-
 }
